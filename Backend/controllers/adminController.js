@@ -1,9 +1,9 @@
 
 import validator from "validator"
+import bcrypt from "bcryptjs"
 import {v2 as cloudinary} from "cloudinary"
 import doctorModel from "../models/doctorModel.js"
 import jwt from "jsonwebtoken"
-const bcrypt = require('bcryptjs');
 
 const addDoctor=async(req,res)=>{
 
