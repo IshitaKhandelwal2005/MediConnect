@@ -218,40 +218,7 @@ const cancelAppointment =async (req,res)=>{
     }
 }
 
-const razorpayInstance = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
-
-const paymentRazorpay =async(req,res)=>{
-    try{
-
-        const {appointmentId}=req.body
-        const appointmentData=await appointmentModel.findById(appointmentId)
-
-        if(!appointmentData || appointmentData.cancelled)
-        {
-            return res.json({success:false,message:"Appointment cancelled or not found"})
-        }
-
-        const options ={
-            amount :appointmentData.amount *100,
-            currency :process.env.CURRENCY,
-            receipt:appointmentId,
-        }
-
-        const order= await razorpayInstance.orders.create(options)
-
-        res.json({success:true,order})
-    }
-    catch(error)
-    {
-        console.log(error)
-        res.json({success:false,message:error.message})
-    }
-
-}
 
 
-export {registerUser,loginUser,paymentRazorpay,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment}
+export {registerUser,loginUser,getProfile,updateProfile,bookAppointment,listAppointment,cancelAppointment}
 
