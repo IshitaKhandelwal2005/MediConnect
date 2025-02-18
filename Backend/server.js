@@ -14,7 +14,12 @@ const port=process.env.PORT || 4000
 connectDB()
 connectCloudinary()
 app.use(express.json())
-app.use(cors()) // frontend //different domains can access api
+app.use(cors({
+    origin: 'https://medi-connect-jet.vercel.app', // Allow only your frontend
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // If using cookies, sessions, or authentication
+}));
+ // frontend //different domains can access api
 
 
 app.use('/api/admin',adminRouter)
