@@ -5,6 +5,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { Navigate, redirect, useNavigate } from 'react-router-dom'
 import DashBoard from './Admin/DashBoard'
+import { DoctorContext } from '../context/DoctorContext'
 
 
 function Login() {
@@ -12,7 +13,11 @@ function Login() {
     const {setAToken,backendUrl}=useContext(AdminContext)
     const [email,setEmail]=useState('admin@mediconnect.com')
     const [password,setPassword]=useState('qwerty123')
+    
+    
     const navigate=useNavigate()
+
+    const {setDToken,dtoken}=useContext(DoctorContext)
 
     const onSubmitHandler =async (event) =>{
         event.preventDefault()
@@ -33,7 +38,16 @@ function Login() {
             }
             else
             {
-                
+                const {data}=await axios.post(backendUrl +'/api/doctor/login',{email,password})
+                if(data.success)
+                    {
+                        localStorage.setItem('dtoken',data.token)
+                        setDToken(data.token)
+                        console.log(data.token)
+                    }
+                    else{
+                        toast.error(data.message)
+                    }
             }
 
         }
